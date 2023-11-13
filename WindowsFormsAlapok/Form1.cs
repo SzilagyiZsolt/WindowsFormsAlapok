@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace WindowsFormsAlapok
 {
@@ -23,7 +24,17 @@ namespace WindowsFormsAlapok
             openFileDialog1.FilterIndex = 0;
             openFileDialog1.Title = "Adatfájl neve:";
             openFileDialog1.InitialDirectory=Environment.CurrentDirectory;
-            openFileDialog1.ShowDialog(this);
+            if (openFileDialog1.ShowDialog(this)==DialogResult.OK)
+            {
+                using (StreamReader sr=new StreamReader(openFileDialog1.FileName))
+                {
+                    sr.ReadLine();
+                    while (!sr.EndOfStream)
+                    {
+                        listbox_Adatok.Items.Add(new Orszag(sr.ReadLine()));
+                    }
+                }
+            }
         }
     }
 }
